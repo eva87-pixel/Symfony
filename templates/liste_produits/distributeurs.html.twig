@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <table class="table mx-auto" border="2" style="width:400px" >
+        <tr>
+            <th>Distributeur</th>
+            <th>
+            <table>
+                <th width="120px">Produit</th>
+                <th>Référence</th>
+            </table>
+            </th>
+        </tr>
+        {% for distributeur in distributeurs %}
+            <tr>
+                <td>{{ distributeur.nom }}</td>
+                <td>
+                <table border="2" style="background-color:grey; ">
+            {% if distributeur.produits is not empty %}
+            {% for produit in distributeur.produits %}
+                    <tr>
+                <td align="center">{{ produit.nom }}</td>
+                <td align="center">{{ produit.reference.numero }}</td>
+                    </tr>
+            {% endfor %}
+            {% endif %}
+                    </table>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

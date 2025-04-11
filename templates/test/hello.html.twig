@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   {{ parent() }} Page de bienvenue
+{% endblock %}
+
+{% block body %}
+   <h2>Bienvenue à {{ nom | upper }} {{ prenom }}</h2>
+
+   {% if age > 60 %}
+       <h3>Vous êtes un senior</h3>
+   {% else %}
+      <h3>Vous êtes un junior</h3>
+   {% endif %}
+
+   {{ messageHtml | raw }}
+
+   {{ dump(monTableau) }}
+
+   {% for key, element in monTableau %}
+      {{ key }}: {{ element }}<br>
+   {% endfor %}
+
+   {# Incrustation du graphique Chart.js #}
+   <div class="w-25 h-25">
+      {{ render_chart(chart) }}
+   </div>
+ 
+   {# incrustation du graphique histo #} 
+   <div class="w-25 h-25" > 
+    {{ render_chart(histo) }} 
+   </div> 
+
+
+   {% verbatim %}
+      <div id="app">
+         <button @click="compteur++">
+            Le compteur est à {{ compteur }}
+         </button>
+      </div>
+   {% endverbatim %}
+
+   <div>
+    <!-- Turbo Frame -->
+    <turbo-frame id="the_frame_id">
+        <!-- Lien avec Turbo -->
+        <a href="{{ path('app_test') }}" title="vers Test">vers Test</a>
+    </turbo-frame>
+
+    <!-- Bouton classique -->
+    <button>
+        <a href="{{ path('app_test') }}" title="vers Test">vers Test</a>
+    </button>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+input.cPerso[type="checkbox"],
+input.cPerso[type="radio"] {
+    position: absolute;
+    left: -9999px;
+}
+
+.cEtiquette {
+    display: block;
+    position: relative;
+    margin: 10px 0;
+    padding-left: 0px;
+    cursor: pointer;
+    color: purple;
+}
+
+.cEtiquette::before,
+.cEtiquette::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 140px;
+}
+
+input.cPerso[type="radio"]+.cEtiquette::before,
+input.cPerso[type="radio"]+.cEtiquette::after {
+    border-radius: 50%;
+}
+
+.cEtiquette::before {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f5f5f5;
+}
+
+.cEtiquette::after {
+    display: none;
+    width: 12px;
+    height: 12px;
+    margin: 4px;
+    background-color: #ff0000;
+}
+
+input.cPerso:focus+.cEtiquette::before {
+    border-color: #c6c3bd;
+}
+
+input.cPerso:checked+.cEtiquette::after {
+    display: block;
+}

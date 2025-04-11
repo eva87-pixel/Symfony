@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+    <div class="alert alert-primary">Réduction 20% sur le produit:
+           {{ lastproduit.nom }}
+    </div>
+
+    <div class="d-flex flex-row justify-content-around flex-wrap">
+           {% for produit in listeproduits %}
+                  <div class="card" style="width: 18rem;">
+    <img class=",card-img-top" src="{{ asset('img/'~produit.lienImage) }}
+    "height="200px" alt="image">
+                 <div class=",card-body">
+                        <h5 class=",card-title">{{ produit.nom }}</h5>
+                              <ul class="list-group list-group-flush">
+                              <li class="list-group-item">
+                              {% if  produit.reference is not null %}
+                                    Référence:
+                                          {{ produit.reference.numero }}
+                                    {% endif %}
+                              </li>
+           <li class="list-group-item">Distributeurs:
+                  {% if produit.distributeurs is not empty %}
+                  {%for distributeur in produit.distributeurs %}
+                         {{ distributeur.nom }}&nbsp;
+                  {% endfor %}
+                  {% else %}
+                         pas de distributeur joint
+                  {% endif %}
+           </li>
+           <li class="list-group-item">Prix:
+                 {{ produit.prix }} Euros</li>
+           <li class="list-group-item">
+                 {% if produit.rupture %}
+                        <strong>Rupture de stock</strong>
+                 {% else %}
+                        Quantité: {{ produit.quantite }}
+                 {% endif %}
+           </li>
+    </ul>
+    <div class="card-body">
+           <a href="#" class="btn btn-primary">Ajouter au Panier</a>
+           <a class="btn btn-warning mt-2" href="{{ path('update', {'id': produit.id }) }}">
+               Éditer le produit
+           </a>
+
+           <a class="btn btn-danger mt-2" href="{{ path('delete', {'id': produit.id }) }}">
+               Supprimer le produit
+           </a>
+    </div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

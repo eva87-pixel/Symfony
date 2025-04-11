@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %} 
+{% block title %} 
+    {{ parent() }} 
+    Page de bienvenue 
+{% endblock %} 
+{% block body %} 
+    <h2>Page de Test</h2> 
+
+    <turbo-frame id="the_frame_id"> 
+    <h2>Page de Test</h2> 
+   <button> 
+   <a href="{{ path('hello', {'nom':'john','prenom':'doe', 'age':25}) }}" 
+       title="vers Test">vers Hello</a> 
+</button> 
+</turbo-frame> 
+ 
+<button> 
+    <a href="{{ path('hello', {'nom':'john','prenom':'doe', 
+'age':25}) }}" 
+        title="vers Hello">vers Hello</a> 
+</button> 
+{% endblock %} 
