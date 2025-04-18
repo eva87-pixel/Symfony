@@ -8,73 +8,101 @@ use App\Entity\Produit;
 use App\Entity\Distributeur;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-
+/**
+ * Fixture pour créer des jointures entre Produit et Distributeur.
+ *
+ * Cette fixture associe certains produits existants à des distributeurs prédéfinis.
+ * Les distributeurs sont créés et ensuite liés aux produits selon leur nom.
+ * La persistance s'effectue grâce au cascade "persist" défini dans l'entité Produit.
+ *
+ * @package App\DataFixtures
+ */
 class JoinDistributeurFixtures extends Fixture implements FixtureGroupInterface
 {
-   public function load(ObjectManager $manager): void
-   {
-       // Récupérer tous les produits en base
-       $repProduit = $manager->getRepository(Produit::class);
+    /**
+     * Charge et insère les associations entre produits et distributeurs.
+     *
+     * @param ObjectManager $manager Le gestionnaire d'entités
+     *
+     * @return void
+     */
+    public function load(ObjectManager $manager): void
+    {
+        // Récupérer le repository des produits
+        $repProduit = $manager->getRepository(Produit::class);
+
+        // Création des objets Distributeur
         $logitech = new Distributeur;
-                   $logitech->setNom('Logitech');
+        $logitech->setNom('Logitech');
+        $manager->persist($logitech);
 
-                   $hp = new Distributeur;
-                   $hp->setNom('HP');
+        $hp = new Distributeur;
+        $hp->setNom('HP');
+        $manager->persist($hp);
 
+        $epson = new Distributeur;
+        $epson->setNom('Epson');
+        $manager->persist($epson);
 
-                   $epson = new Distributeur;
-                   $epson->setNom('Epson');
+        $dell = new Distributeur;
+        $dell->setNom('Dell');
+        $manager->persist($dell);
 
+        $acer = new Distributeur;
+        $acer->setNom('Acer');
+        $manager->persist($acer);
 
-                   $dell = new Distributeur;
-                   $dell->setNom('Dell');
+        // Création des jointures entre produits et distributeurs
+        $produit = $repProduit->findOneBy(array('nom' => 'souris'));
+        if ($produit !== null) {
+        $produit->addDistributeur($hp);
+        $produit->addDistributeur($logitech);
+        }
 
+        $produit = $repProduit->findOneBy(array('nom' => 'écrans'));
+        if ($produit !== null) {
+        $produit->addDistributeur($hp);
+        $produit->addDistributeur($dell);
+        }
 
-                   $acer = new Distributeur;
-                   $acer->setNom('Acer');
+        $produit = $repProduit->findOneBy(array('nom' => 'claviers'));
+        if ($produit !== null) {
+        $produit->addDistributeur($hp);
+        $produit->addDistributeur($logitech);
+        }
 
+        $produit = $repProduit->findOneBy(array('nom' => 'ordinateurs'));
+        if ($produit !== null) {
+        $produit->addDistributeur($hp);
+        $produit->addDistributeur($dell);
+        $produit->addDistributeur($acer);
+        }
 
-                   // création des jointures
-                   $produit = $repProduit->findOneBy(array('nom' => 'souris'));
-                   $produit->addDistributeur($hp);
-                   $produit->addDistributeur($logitech);
+        $produit = $repProduit->findOneBy(array('nom' => 'cartouches encre'));
+        if ($produit !== null) {
+        $produit->addDistributeur($epson);
+        }
 
+        $produit = $repProduit->findOneBy(array('nom' => 'imprimantes'));
+        if ($produit !== null) {
+        $produit->addDistributeur($epson);
+        $produit->addDistributeur($hp);
+        }
 
-                   $produit = $repProduit->findOneBy(array('nom' => 'écrans'));
-                   $produit->addDistributeur($hp);
-                   $produit->addDistributeur($dell);
+        // Persist uniquement le dernier produit récupéré
+        $manager->persist($produit);
 
+        // Pas besoin d'appeler persist() sur les distributeurs grâce à l'option cascade "persist"
+        $manager->flush();
+    }
 
-                   $produit = $repProduit->findOneBy(array('nom' => 'claviers'));
-                   $produit->addDistributeur($hp);
-                   $produit->addDistributeur($logitech);
-
-
-                   $produit = $repProduit->findOneBy(array('nom' => 'ordinateurs'));
-                   $produit->addDistributeur($hp);
-                   $produit->addDistributeur($dell);
-                   $produit->addDistributeur($acer);
-
-                   $produit = $repProduit->findOneBy(array('nom' =>
-       'cartouches encre'));
-                   $produit->addDistributeur($epson);
-
-
-                   $produit=$repProduit->findOneBy(array('nom' =>
-       'imprimantes'));
-                   $produit->addDistributeur($epson);
-                   $produit->addDistributeur($hp);
-
-                   $manager->persist($produit);
-
-           // pas besoin du persist($distributeur)grâce au cascade= ‘persist']
-
-
-               $manager->flush();
-           }
-
-           public static function getGroups(): array
-           {
-               return ['group3'];
-           }
-       }
+    /**
+     * Retourne les groupes de fixtures auxquels appartient cette fixture.
+     *
+     * @return array
+     */
+    public static function getGroups(): array
+    {
+        return ['group3'];
+    }
+}

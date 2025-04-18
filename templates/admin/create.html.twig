@@ -1,50 +1,61 @@
 {% extends 'base.html.twig' %}
 
+{# Application du thème personnalisé pour les erreurs de formulaire #}
+{% form_theme my_form with ['Form/form_errors.html.twig'] %}
+
 {% block title %}
     Administration du site
 {% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-center">
+        {# Début du formulaire #}
         {{ form_start(my_form) }}
         {{ form_errors(my_form) }}
 
+        {# Champ "nom" : Nom du produit #}
         <div class="form-group">
             {{ form_label(my_form.nom) }}
             {{ form_widget(my_form.nom, {'attr': { 'class': 'form-control'}}) }}
             {{ form_errors(my_form.nom) }}
         </div>
 
+        {# Champ "prix" : Prix du produit #}
         <div class="form-group">
             {{ form_label(my_form.prix) }}
-            {{ form_widget(my_form.prix, {'attr': { 'class':'form-control'}}) }}
+            {{ form_widget(my_form.prix, {'attr': { 'class': 'form-control'}}) }}
             {{ form_errors(my_form.prix) }}
         </div>
 
+        {# Champ "quantite" : Quantité du produit #}
         <div class="form-group">
             {{ form_label(my_form.quantite) }}
-            {{ form_widget(my_form.quantite, {'attr': { 'class':'form-control'}}) }}
+            {{ form_widget(my_form.quantite, {'attr': { 'class': 'form-control'}}) }}
             {{ form_errors(my_form.quantite) }}
         </div>
 
+        {# Champ "rupture" : Indique si le produit est en rupture de stock #}
         <div class="form-group mt-3">
             {{ form_label(my_form.rupture) }}
             {{ form_widget(my_form.rupture) }}
             {{ form_errors(my_form.rupture) }}
         </div>
 
+        {# Champ "lienImage" : Permet l'upload d'une image du produit #}
         <div class="form-group mt-3">
             {{ form_label(my_form.lienImage) }}
             {{ form_widget(my_form.lienImage) }}
             {{ form_errors(my_form.lienImage) }}
         </div>
 
+        {# Champ "reference.numero" : Saisie du numéro de référence du produit #}
         <div class="form-group mt-3">
             {{ form_label(my_form.reference.numero) }}
-            {{ form_widget(my_form.reference.numero, {'attr': { 'class':'form-control'}}) }}
+            {{ form_widget(my_form.reference.numero, {'attr': { 'class': 'form-control'}}) }}
             {{ form_errors(my_form.reference.numero) }}
         </div>
 
+        {# Bloc commenté : Exemple d'utilisation de Stimulus pour la collection dynamique de distributeurs #}
         {#
         <div {{ stimulus_controller('form-collection') }}
              data-form-collection-index-value="{{ my_form.distributeurs|length > 0 ? my_form.distributeurs|last.vars.name + 1 : 0 }}"
@@ -56,17 +67,19 @@
         </div>
         #}
 
+        {# Affichage classique du champ "distributeurs" (sélection des distributeurs existants) #}
         <div class="form-group mt-3">
             {{ form_label(my_form.distributeurs) }}
             {{ form_widget(my_form.distributeurs, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(my_form.distributeurs) }}
         </div>
 
+        {# Bouton de soumission du formulaire #}
         <div class="mt-4">
-            {{ form_row(my_form.creer, {'attr': { 'class':'btn btn-info'}}) }}
+            {{ form_row(my_form.creer, {'attr': { 'class': 'btn btn-info'}}) }}
         </div>
 
-
+        {# Fin du formulaire #}
         {{ form_end(my_form) }}
     </div>
 {% endblock %}

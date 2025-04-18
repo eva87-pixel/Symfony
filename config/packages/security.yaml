@@ -19,9 +19,10 @@ security:
             custom_authenticator: App\Security\CustomAuthenticator
             logout:
                 path: app_logout
-                invalidate_session: true  # Sécurisation de la déconnexion
+            access_denied_handler: App\Security\AccessDeniedHandler
+                #invalidate_session: true  # Sécurisation de la déconnexion
             # Handler pour les accès refusés (placé correctement ici)
-            access_denied_url: /access-denied  # OU une URL personnalisée
+            # access_denied_url: /access-denied  # OU une URL personnalisée
 
             remember_me:
                 secret: '%kernel.secret%'

@@ -10,17 +10,43 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
+ * Class UserRepository
+ *
+ * Ce repository gère les requêtes spécifiques liées à l'entité User.
+ * Il étend le ServiceEntityRepository pour bénéficier des méthodes standards de Doctrine.
+ * De plus, il implémente PasswordUpgraderInterface pour permettre la ré-hachage automatique
+ * du mot de passe de l'utilisateur au fil du temps.
+ *
  * @extends ServiceEntityRepository<User>
+ *
+ * @package App\Repository
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * Constructeur.
+     *
+     * Initialise le repository pour l'entité User en utilisant le ManagerRegistry.
+     *
+     * @param ManagerRegistry $registry Le gestionnaire de registres d'entités.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+     * Permet de mettre à jour (rehacher) le mot de passe de l'utilisateur.
+     *
+     * Cette méthode est appelée pour mettre à jour le mot de passe haché d'un utilisateur
+     * lorsque cela est nécessaire (par exemple, lorsque l'algorithme de hachage évolue).
+     *
+     * @param PasswordAuthenticatedUserInterface $user Le user à mettre à jour.
+     * @param string $newHashedPassword Le nouveau mot de passe haché.
+     *
+     * @throws UnsupportedUserException Si l'utilisateur passé n'est pas une instance de User.
+     *
+     * @return void
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
@@ -44,8 +70,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->orderBy('u.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
-    //            ->getResult()
-    //        ;
+    //            ->getResult();
     //    }
 
     //    public function findOneBySomeField($value): ?User
@@ -54,7 +79,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->andWhere('u.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
+    //            ->getOneOrNullResult();
     //    }
 }
