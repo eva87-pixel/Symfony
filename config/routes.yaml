@@ -16,3 +16,7 @@ index:
     path: /testroute 
     controller: App\Controller\TestController::index
 
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
