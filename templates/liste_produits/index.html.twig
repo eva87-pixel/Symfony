@@ -7,11 +7,16 @@
         Réduction de 20% sur le produit: {{ lastproduit.nom }}
     </div>
 
-    {# Bouton d’insertion visible uniquement pour les admins #}
+    {# Boutons d’insertion visibles uniquement pour les admins #}
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="btn btn-info mb-2" href="{{ path('insert') }}">
-            Insertion d'un nouveau produit
+      <div class="d-flex mb-3">
+        <a class="btn btn-info me-2" href="{{ path('insert') }}">
+          Insérer un nouveau produit
         </a>
+        <a class="btn btn-info" href="{{ path('app_distributeur_new') }}">
+          Insérer un distributeur
+        </a>
+      </div>
     {% endif %}
 
     <div class="d-flex flex-row justify-content-around flex-wrap">

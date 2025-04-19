@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Distributeur index{% endblock %}
+
+{% block body %}
+    <h1>Distributeur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for distributeur in distributeurs %}
+            <tr>
+                <td>{{ distributeur.id }}</td>
+                <td>{{ distributeur.nom }}</td>
+                <td>
+                    <a href="{{ path('app_distributeur_show', {'id': distributeur.id}) }}">show</a>
+                    <a href="{{ path('app_distributeur_edit', {'id': distributeur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_distributeur_new') }}">Create new</a>
+{% endblock %}
