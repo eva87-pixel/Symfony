@@ -1,3 +1,9 @@
- <p>Posté par Eva, le
-      <time datetime="2023-11-02">2 Novembre 2023</time> 
-</p>
+<div class="container text-center">
+    <p>
+      Posté par Eva, dernière mise à jour le
+      <time datetime="{{ "now"|date('Y-m-d') }}">
+        {{ "now"|date('d F Y') }}
+      </time>
+      — Tous droits réservés.
+    </p>
+</div>
