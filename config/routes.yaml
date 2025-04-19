@@ -6,6 +6,14 @@ delete:
     path: /delete/{id}
     controller: App\Controller\AdminController::delete
 
+admin_home:
+    path: /admin
+    controller: App\Controller\AdminController::adminHome
+
+liste:
+    path: /liste
+    controller: App\Controller\ListeProduitsController::liste
+
 controllers:
     resource:
         path: ../src/Controller/

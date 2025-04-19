@@ -3,58 +3,69 @@
 {% block title %}Liste des produits{% endblock %}
 
 {% block body %}
-    <div class="alert alert-primary">Réduction 20% sur le produit:
-           {{ lastproduit.nom }}
+    <div class="alert alert-primary">
+        Réduction de 20% sur le produit: {{ lastproduit.nom }}
     </div>
-<a class="btn btn-info mb-2" href="{{ path('insert') }}" >
-    Insertion d'un nouveau produit
-</a>
+
+    {# Bouton d’insertion visible uniquement pour les admins #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-info mb-2" href="{{ path('insert') }}">
+            Insertion d'un nouveau produit
+        </a>
+    {% endif %}
 
     <div class="d-flex flex-row justify-content-around flex-wrap">
-           {% for produit in listeproduits %}
-                  <div class="card" style="width: 18rem;">
-    <img class=",card-img-top" src="{{ asset('img/'~produit.lienImage) }}
-    "height="200px" alt="image">
-                 <div class=",card-body">
-                        <h5 class=",card-title">{{ produit.nom }}</h5>
-                              <ul class="list-group list-group-flush">
-                              <li class="list-group-item">
-                              {% if  produit.reference is not null %}
-                                    Référence:
-                                          {{ produit.reference.numero }}
-                                    {% endif %}
-                              </li>
-           <li class="list-group-item">Distributeurs:
-                  {% if produit.distributeurs is not empty %}
-                  {%for distributeur in produit.distributeurs %}
-                         {{ distributeur.nom }}&nbsp;
-                  {% endfor %}
-                  {% else %}
-                         pas de distributeur joint
-                  {% endif %}
-           </li>
-           <li class="list-group-item">Prix:
-                 {{ produit.prix }} Euros</li>
-           <li class="list-group-item">
-                 {% if produit.rupture %}
-                        <strong>Rupture de stock</strong>
-                 {% else %}
-                        Quantité: {{ produit.quantite }}
-                 {% endif %}
-           </li>
-    </ul>
-    <div class="card-body">
-           <a href="#" class="btn btn-primary">Ajouter au Panier</a>
-           <a class="btn btn-warning mt-2" href="{{ path('update', {'id': produit.id }) }}">
-               Éditer le produit
-           </a>
+        {% for produit in listeproduits %}
+            <div class="card" style="width: 18rem; margin:10px;">
+                <img class="card-img-top"
+                     src="{{ asset('img/' ~ produit.lienImage) }}"
+                     height="200px" alt="{{ produit.nom }}">
 
-           <a class="btn btn-danger mt-2" href="{{ path('delete', {'id': produit.id }) }}">
-               Supprimer le produit
-           </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ produit.nom }}</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            {% if produit.reference %}
+                                Référence: {{ produit.reference.numero }}
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            Distributeurs:
+                            {% if produit.distributeurs|length > 0 %}
+                                {% for d in produit.distributeurs %}
+                                    {{ d.nom }}&nbsp;
+                                {% endfor %}
+                            {% else %}
+                                (aucun)
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">Prix: {{ produit.prix }} €</li>
+                        <li class="list-group-item">
+                            {% if produit.rupture %}
+                                <strong>Rupture de stock</strong>
+                            {% else %}
+                                Quantité: {{ produit.quantite }}
+                            {% endif %}
+                        </li>
+                    </ul>
+
+                    <div class="card-body">
+                        <a href="#" class="btn btn-primary">Ajouter au Panier</a>
+
+                        {# Éditer + Supprimer pour les admins seulement #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-warning mt-2"
+                               href="{{ path('update', {'id': produit.id}) }}">
+                                Éditer
+                            </a>
+                            <a class="btn btn-danger mt-2"
+                               href="{{ path('delete', {'id': produit.id}) }}">
+                                Supprimer
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-</div>
-</div>
-{% endfor %}
-</div>
 {% endblock %}

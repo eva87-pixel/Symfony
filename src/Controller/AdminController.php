@@ -108,6 +108,16 @@ class AdminController extends AbstractController
     }
 
     /**
+     * Route “/admin” : redirige vers la page publique de la liste des produits.
+     */
+    #[Route('', name: 'admin_home')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function adminHome(): Response
+    {
+        return $this->redirectToRoute('liste');
+    }
+
+    /**
      * Met à jour un produit existant (image, données, etc.) selon son ID.
      *
      * @param Request $request              La requête HTTP
