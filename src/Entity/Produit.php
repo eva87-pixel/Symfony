@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\Antispam;
+use App\Entity\Category;
 
 /**
  * Class Produit
@@ -131,6 +132,9 @@ class Produit
      */
     #[ORM\OneToOne(targetEntity: Reference::class, cascade: ["persist"])]
     private ?Reference $reference = null;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'produits', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'produit_category')]
+    private Collection $categories;
 
     /**
      * Collection des distributeurs associés au produit (relation many-to-many).
@@ -149,6 +153,46 @@ class Produit
     public function __construct()
     {
         $this->distributeurs = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
+
+    /**
+     * Retourne la collection des catégories associées au produit.
+     *
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+    /**
+     * Ajoute une catégorie à la collection du produit.
+     *
+     * @param Category $category La catégorie à ajouter.
+     *
+     * @return static
+     */
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->addProduit($this); // Associer ce produit à la catégorie
+        }
+        return $this;
+    }
+    /**
+     * Supprime une catégorie de la collection du produit.
+     *
+     * @param Category $category La catégorie à retirer.
+     *
+     * @return static
+     */
+    public function removeCategory(Category $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            $category->removeProduit($this); // Dissocier le produit de la catégorie
+        }
+        return $this;
     }
 
     /**

@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Category;
 
 /**
  * Class ProduitType
@@ -72,6 +73,14 @@ class ProduitType extends AbstractType
                 'choice_label' => 'nom',
                 'label'        => 'Selection des distributeurs',
                 'multiple'     => true,
+                'required'     => false
+            ])
+            ->add('categories', EntityType::class, [
+                'class'        => Category::class,
+                'choice_label' => 'name',
+                'label'        => 'Catégories',
+                'multiple'     => true,
+                'expanded'     => true,
                 'required'     => false
             ])
             ->add('creer', SubmitType::class, [

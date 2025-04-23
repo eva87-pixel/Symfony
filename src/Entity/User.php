@@ -32,9 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @var int|null
      */
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Id] /*cle primaire */
+    #[ORM\GeneratedValue] /*auto incremente */
+    #[ORM\Column]/*colonne id de la table */
     private ?int $id = null;
 
     /**

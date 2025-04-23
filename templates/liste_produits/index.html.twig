@@ -4,38 +4,45 @@
 
 {% block body %}
     <div class="alert alert-primary">
-        Réduction de 20% sur le produit: {{ lastproduit.nom }}
+        Réduction de 20% sur le produit : {{ lastproduit.nom }}
     </div>
 
     {# Boutons d’insertion visibles uniquement pour les admins #}
     {% if is_granted('ROLE_ADMIN') %}
-      <div class="d-flex mb-3">
-        <a class="btn btn-info me-2" href="{{ path('insert') }}">
-          Insérer un nouveau produit
-        </a>
-        <a class="btn btn-info" href="{{ path('app_distributeur_new') }}">
-          Insérer un distributeur
-        </a>
-      </div>
+        <div class="d-flex mb-3">
+            <a class="btn btn-info me-2" href="{{ path('insert') }}">
+                Insérer un nouveau produit
+            </a>
+            <a class="btn btn-info me-2" href="{{ path('app_distributeur_new') }}">
+                Insérer un distributeur
+            </a>
+            <a class="btn btn-success" href="{{ path('app_category_new') }}">
+                Insérer une catégorie
+            </a>
+        </div>
     {% endif %}
 
     <div class="d-flex flex-row justify-content-around flex-wrap">
         {% for produit in listeproduits %}
-            <div class="card" style="width: 18rem; margin:10px;">
-                <img class="card-img-top"
-                     src="{{ asset('img/' ~ produit.lienImage) }}"
-                     height="200px" alt="{{ produit.nom }}">
+            <div class="card" style="width: 18rem; margin: 10px;">
+                <img
+                    class="card-img-top"
+                    src="{{ asset('img/' ~ produit.lienImage) }}"
+                    height="200px"
+                    alt="{{ produit.nom }}"
+                >
 
                 <div class="card-body">
                     <h5 class="card-title">{{ produit.nom }}</h5>
+
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             {% if produit.reference %}
-                                Référence: {{ produit.reference.numero }}
+                                Référence : {{ produit.reference.numero }}
                             {% endif %}
                         </li>
                         <li class="list-group-item">
-                            Distributeurs:
+                            Distributeurs :
                             {% if produit.distributeurs|length > 0 %}
                                 {% for d in produit.distributeurs %}
                                     {{ d.nom }}&nbsp;
@@ -44,12 +51,24 @@
                                 (aucun)
                             {% endif %}
                         </li>
-                        <li class="list-group-item">Prix: {{ produit.prix }} €</li>
+                        <li class="list-group-item">
+                            Catégories :
+                            {% if produit.categories|length > 0 %}
+                                {% for cat in produit.categories %}
+                                    {{ cat.name }}&nbsp;
+                                {% endfor %}
+                            {% else %}
+                                (aucune)
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            Prix : {{ produit.prix }} €
+                        </li>
                         <li class="list-group-item">
                             {% if produit.rupture %}
                                 <strong>Rupture de stock</strong>
                             {% else %}
-                                Quantité: {{ produit.quantite }}
+                                Quantité : {{ produit.quantite }}
                             {% endif %}
                         </li>
                     </ul>
@@ -59,12 +78,16 @@
 
                         {# Éditer + Supprimer pour les admins seulement #}
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a class="btn btn-warning mt-2"
-                               href="{{ path('update', {'id': produit.id}) }}">
+                            <a
+                                class="btn btn-warning mt-2"
+                                href="{{ path('update', {'id': produit.id}) }}"
+                            >
                                 Éditer
                             </a>
-                            <a class="btn btn-danger mt-2"
-                               href="{{ path('delete', {'id': produit.id}) }}">
+                            <a
+                                class="btn btn-danger mt-2"
+                                href="{{ path('delete', {'id': produit.id}) }}"
+                            >
                                 Supprimer
                             </a>
                         {% endif %}

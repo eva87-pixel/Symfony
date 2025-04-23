@@ -55,28 +55,23 @@
             {{ form_errors(my_form.reference.numero) }}
         </div>
 
-        {# Bloc commenté : Exemple d'utilisation de Stimulus pour la collection dynamique de distributeurs #}
-        {#
-        <div {{ stimulus_controller('form-collection') }}
-             data-form-collection-index-value="{{ my_form.distributeurs|length > 0 ? my_form.distributeurs|last.vars.name + 1 : 0 }}"
-             data-form-collection-prototype-value="{{ prototypeRendered|e('html_attr') }}">
-            <ul {{ stimulus_target('form-collection', 'collectionContainer') }}></ul>
-            <button type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>
-                Ajout d'un Distributeur
-            </button>
-        </div>
-        #}
-
-        {# Affichage classique du champ "distributeurs" (sélection des distributeurs existants) #}
+        {# Sélection multiple des distributeurs existants #}
         <div class="form-group mt-3">
             {{ form_label(my_form.distributeurs) }}
             {{ form_widget(my_form.distributeurs, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(my_form.distributeurs) }}
         </div>
 
+        {# Sélection multiple des catégories du produit #}
+        <div class="form-group mt-3">
+            {{ form_label(my_form.categories) }}
+            {{ form_widget(my_form.categories, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(my_form.categories) }}
+        </div>
+
         {# Bouton de soumission du formulaire #}
         <div class="mt-4">
-            {{ form_row(my_form.creer, {'attr': { 'class': 'btn btn-info'}}) }}
+            {{ form_row(my_form.creer, {'attr': { 'class':'btn btn-info'}}) }}
         </div>
 
         {# Fin du formulaire #}

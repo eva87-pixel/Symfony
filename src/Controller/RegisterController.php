@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class RegisterController
@@ -37,6 +38,7 @@ class RegisterController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response La réponse HTTP générée.
      */
     #[Route('/register', name: 'register')]
+    #[IsGranted('ROLE_ADMIN')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
